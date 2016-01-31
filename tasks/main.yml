@@ -5,34 +5,34 @@
 ############################
 
 - name: Copy SSH Key - Private
-  copy: src={{ repo_ssh_private_key }} dest=/home/{{ ansible_ssh_user }}/.ssh/{{ repo_name }}_rsa owner={{ ansible_ssh_user }} group=sudo mode=0600
+  copy: src={{ git_repo_ssh_private_key }} dest=/home/{{ ansible_ssh_user }}/.ssh/{{ git_repo_name }}_rsa owner={{ ansible_ssh_user }} group=sudo mode=0600
   become: no
-  when: repo_ssh_private_key != false
+  when: git_repo_ssh_private_key != false
 
 - name: Copy SSH Key - Public
-  copy: src={{ repo_ssh_public_key }} dest=/home/{{ ansible_ssh_user }}/.ssh/{{ respository_project }}_rsa.pub owner={{ ansible_ssh_user }} group=sudo mode=0644
+  copy: src={{ git_repo_ssh_public_key }} dest=/home/{{ ansible_ssh_user }}/.ssh/{{ respository_project }}_rsa.pub owner={{ ansible_ssh_user }} group=sudo mode=0644
   become: no
-  when: repo_ssh_public_key != false
+  when: git_repo_ssh_public_key != false
 
 - name: Clone Git repo (Private)
-  git: repo={{ repo_url }} dest=/home/{{ ansible_ssh_user }}/{{ repo_name }} force=yes accept_hostkey=yes key_file=/home/{{ ansible_ssh_user }}/.ssh/{{ project }}_rsa
+  git: repo={{ git_repo_url }} dest=/home/{{ ansible_ssh_user }}/{{ git_repo_name }} force=yes accept_hostkey=yes key_file=/home/{{ ansible_ssh_user }}/.ssh/{{ project }}_rsa
   become: no
   register: gitcode
-  when: repo_ssh_private_key != false
+  when: git_repo_ssh_private_key != false
 
 - name: Clone Git Repository (Public)
-  git: repo={{ repo_url }} dest=/home/{{ ansible_ssh_user }}/{{ repo_name }} force=yes accept_hostkey=yes
+  git: repo={{ git_repo_url }} dest=/home/{{ ansible_ssh_user }}/{{ git_repo_name }} force=yes accept_hostkey=yes
   become: no
   register: gitcode
-  when: repo_ssh_private_key == false
+  when: git_repo_ssh_private_key == false
 
 - name: Correct Permissions for Directory
   become: yes
-  file: path=/home/{{ ansible_ssh_user }}/{{ repo_name }} state=directory owner={{ ansible_ssh_user }} group=sudo mode=0755
+  file: path=/home/{{ ansible_ssh_user }}/{{ git_repo_name }} state=directory owner={{ ansible_ssh_user }} group=sudo mode=0755
 
 # TODO: Might have been fixed in Ansible v2. Disabled
 # Workaround
 #- name: Configure Git
-#  shell: chdir="/home/{{ ansible_ssh_user }}/{{ repo_name }}" git config url."https://".insteadOf git://;
+#  shell: chdir="/home/{{ ansible_ssh_user }}/{{ git_repo_name }}" git config url."https://".insteadOf git://;
 #  become: no
 #  when: gitcode.changed
