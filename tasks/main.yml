@@ -10,7 +10,7 @@
   when: git_repo_ssh_private_key != false
 
 - name: Copy SSH Key - Public
-  copy: src={{ git_repo_ssh_public_key }} dest=/home/{{ ansible_ssh_user }}/.ssh/{{ respository_project }}_rsa.pub owner={{ ansible_ssh_user }} group=sudo mode=0644
+  copy: src={{ git_repo_ssh_public_key }} dest=/home/{{ ansible_ssh_user }}/.ssh/{{ git_repo_name }}_rsa.pub owner={{ ansible_ssh_user }} group=sudo mode=0644
   become: no
   when: git_repo_ssh_public_key != false
 
