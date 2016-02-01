@@ -36,3 +36,10 @@
 #  shell: chdir="/home/{{ ansible_ssh_user }}/{{ git_repo_name }}" git config url."https://".insteadOf git://;
 #  become: no
 #  when: gitcode.changed
+
+- name: Run Command (e.g. for Building)
+  become: no
+  command: "{{ git_repo_command }}"
+  args:
+    chdir: /home/{{ ansible_ssh_user }}/{{ git_repo_name }}
+  when: gitcode.changed and git_repo_command != false

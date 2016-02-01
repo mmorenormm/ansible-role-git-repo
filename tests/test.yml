@@ -4,5 +4,6 @@
   roles:
     - ryanlelek.packages
     - role: ../../
-      git_repo_name: raneto
-      git_repo_url: https://github.com/gilbitron/Raneto.git
+      git_repo_name:    raneto
+      git_repo_url:     https://github.com/gilbitron/Raneto.git
+      git_repo_command: echo OK

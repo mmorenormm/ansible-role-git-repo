@@ -15,6 +15,7 @@ Role Variables
 - **git_repo_url**: false
 - **git_repo_ssh_private_key**: false
 - **git_repo_ssh_public_key**: false
+- **git_repo_command**: false
 
 Dependencies
 ------------
