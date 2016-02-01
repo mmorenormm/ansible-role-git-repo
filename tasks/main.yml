@@ -15,7 +15,7 @@
   when: git_repo_ssh_public_key != false
 
 - name: Clone Git repo (Private)
-  git: repo={{ git_repo_url }} dest=/home/{{ ansible_ssh_user }}/{{ git_repo_name }} force=yes accept_hostkey=yes key_file=/home/{{ ansible_ssh_user }}/.ssh/{{ project }}_rsa
+  git: repo={{ git_repo_url }} dest=/home/{{ ansible_ssh_user }}/{{ git_repo_name }} force=yes accept_hostkey=yes key_file=/home/{{ ansible_ssh_user }}/.ssh/{{ git_repo_name }}_rsa
   become: no
   register: gitcode
   when: git_repo_ssh_private_key != false
