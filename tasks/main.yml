@@ -20,11 +20,25 @@
   register: gitcode
   when: git_repo_ssh_private_key != false
 
+- name: Run Command (e.g. for Building)
+  become: no
+  command: "{{ git_repo_command }}"
+  args:
+    chdir: /home/{{ ansible_ssh_user }}/{{ git_repo_name }}
+  when: gitcode.changed and git_repo_command != false
+
 - name: Clone Git Repository (Public)
   git: repo={{ git_repo_url }} dest=/home/{{ ansible_ssh_user }}/{{ git_repo_name }} force=yes accept_hostkey=yes
   become: no
   register: gitcode
   when: git_repo_ssh_private_key == false
+
+- name: Run Command (e.g. for Building)
+  become: no
+  command: "{{ git_repo_command }}"
+  args:
+    chdir: /home/{{ ansible_ssh_user }}/{{ git_repo_name }}
+  when: gitcode.changed and git_repo_command != false
 
 - name: Correct Permissions for Directory
   become: yes
@@ -37,9 +51,3 @@
 #  become: no
 #  when: gitcode.changed
 
-- name: Run Command (e.g. for Building)
-  become: no
-  command: "{{ git_repo_command }}"
-  args:
-    chdir: /home/{{ ansible_ssh_user }}/{{ git_repo_name }}
-  when: gitcode.changed and git_repo_command != false
